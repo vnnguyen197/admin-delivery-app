@@ -1,0 +1,73 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+:root {
+  --color-primary: #33303cde !important;
+  --color-secondary: #33303cad !important;
+  --bgr-primary: linear-gradient(225deg, #8a3cff 0%, #563981 100%) !important;
+  --bgr-secondary: #28c78f !important;
+  --color-background-linear: linear-gradient(225deg, #7367f0 0%, #563981 100%);
+}
+
+.ant-tabs-nav-list {
+  gap: 30px !important;
+}
+
+.ant-tabs .ant-tabs-tab {
+  background: #f0f0f0;
+  color: #00467f;
+  border-radius: 20px;
+  padding: 8px 18px;
+  margin: 8px !important;
+}
+
+.ant-tabs-tab-active {
+  background: #00467f !important;
+  color: #fff !important;
+  box-shadow: 0 0 4px #052653 !important;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #fff !important;
+}
+
+.ant-tabs-top > .ant-tabs-nav .ant-tabs-ink-bar {
+  border: none !important;
+  width: 0px !important;
+}
