@@ -5,6 +5,10 @@ import {
   LogoutOutlined,
   PieChartTwoTone,
   UserOutlined,
+  UsergroupDeleteOutlined,
+  CreditCardOutlined,
+  RotateRightOutlined,
+  DropboxOutlined
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useLoading } from "hooks/LoadingContext";
@@ -34,8 +38,20 @@ export const SlideBar = () => {
         <Account onClick={() => navigate("/")}>
           <PieChartTwoTone /> Dashboard
         </Account>
-        <Account onClick={() => navigate("/account-management")}>
-          <UserOutlined /> Quản lý tài khoản
+        <Account onClick={() => navigate("/user")}>
+          <UserOutlined /> Quản lý người dùng
+        </Account>
+        <Account onClick={() => navigate("/shipper")}>
+        <UsergroupDeleteOutlined /> Quản lý shipper
+        </Account>
+        <Account onClick={() => navigate("/")}>
+        <DropboxOutlined /> Quản lý đơn hàng
+        </Account>
+        <Account onClick={() => navigate("/")}>
+        <RotateRightOutlined /> Phê duyệt đơn hàng
+        </Account>
+          <Account onClick={() => navigate("/tag")}>
+          <CreditCardOutlined /> Quản lý tag
         </Account>
         <Account style={{ color: "red" }} onClick={logout}>
           <LogoutOutlined /> Đăng xuất

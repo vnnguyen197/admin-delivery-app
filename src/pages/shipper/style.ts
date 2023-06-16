@@ -29,3 +29,9 @@ export const StyleBreadcrumbs = styled.div`
   padding-left: 24px;
   padding-top: 24px;
 `;
+
+export const StyleTitle = styled.h2`
+  font-size: 25px;
+  color: #33303cde;
+  font-weight: bold;
+`;

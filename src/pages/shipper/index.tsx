@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { StyleContainer } from "./style";
 import userAPI from "services/userAPI";
 import { Input } from "antd";
 import useDebounce from "hooks/useDebounce";
+import { SlideBar } from "components/SlideBar";
+import { StyleContainer, StyleContentLeft, StyleContetnRight, StyleTitle } from "./style";
+import user from "assets/images/userAccount.png";
 
 const { Search } = Input;
 
@@ -19,11 +21,34 @@ interface DataType {
 
 const columns: ColumnsType<DataType> = [
   {
+    title: "",
+    dataIndex: "avatar",
+    // colSpan: ,
+    render: (imageUrl) => (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-end",
+        }}
+      >
+        <img
+          style={{ borderRadius: "50%" }} // Add margin-right for spacing
+          width="50px"
+          height="50px"
+          src={imageUrl ? imageUrl : user}
+          alt="Product"
+        />
+      </div>
+    ),
+  },
+  {
     title: "Họ và Tên",
     dataIndex: "fullName",
     key: "fullName",
     sorter: (a, b) => a.fullName.localeCompare(b.fullName),
     sortOrder: null,
+    // colSpan: 0,
   },
   {
     title: "Email",
@@ -57,10 +82,9 @@ const columns: ColumnsType<DataType> = [
   },
 ];
 
-const User: any = (props: any) => {
+const Shipper: any = (props: any) => {
   const [data, setData] = useState([]);
   const [keySearch, setKeySearch] = useState("");
-  const { keyItem } = props;
 
   const debouncedValue = useDebounce<string>(keySearch, 500);
 
@@ -73,8 +97,9 @@ const User: any = (props: any) => {
     setData(data.rows);
   };
 
-  const filltedUser = data?.filter((item: any) => item?.role === "user");
   const filltedShipper = data?.filter((item: any) => item?.role === "shipper");
+
+
 
   const handleSearch = (event: any) => {
     setKeySearch(event.target.value);
@@ -82,9 +107,10 @@ const User: any = (props: any) => {
 
   useEffect(() => {
     getProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedValue]);
 
-  const dataList: DataType[] = keyItem === "1" ? filltedUser : filltedShipper;
+  const dataList: DataType[] = filltedShipper;
 
   const [sortOrder, setSortOrder] = useState<"ascend" | "descend" | null>(null);
   const [sortedColumn, setSortedColumn] = useState<string | null>(null);
@@ -115,21 +141,27 @@ const User: any = (props: any) => {
 
   return (
     <StyleContainer>
-      <Search
-        size="large"
-        placeholder="Tìm kiếm: Họ và Tên, Số điện thoại"
-        style={{ width: 400 }}
-        value={keySearch}
-        onChange={handleSearch}
-      />
-      <Table
-        columns={columns}
-        dataSource={sortedData}
-        onChange={handleChange}
-        pagination={false}
-      />
+      <StyleContentLeft>
+        <SlideBar />
+      </StyleContentLeft>
+      <StyleContetnRight>
+        <StyleTitle>Quản lý Shipper</StyleTitle>
+        <Search
+          size="large"
+          placeholder="Tìm kiếm: Họ và Tên, Số điện thoại"
+          style={{ width: 400 }}
+          value={keySearch}
+          onChange={handleSearch}
+        />
+        <Table
+          columns={columns}
+          dataSource={sortedData}
+          onChange={handleChange}
+          pagination={false}
+        />
+      </StyleContetnRight>
     </StyleContainer>
   );
 };
 
-export default User;
+export default Shipper;
