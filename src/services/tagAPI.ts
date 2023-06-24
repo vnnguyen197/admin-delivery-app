@@ -14,7 +14,7 @@ export const tagAPI = {
     return axiosClient.patch(url, data);
   },
   deleteTag: (id: string) =>{
-    const url = `admin/tag/${id}`
+    const url = `admin/tags/${id}`
     return axiosClient.delete(url)
   }
 };

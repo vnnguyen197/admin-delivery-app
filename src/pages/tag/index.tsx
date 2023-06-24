@@ -6,6 +6,7 @@ import {
   StyleButton,
   StyleContent,
   StyleTitle,
+  StyleLoading,
 } from "./style";
 import { SlideBar } from "components/SlideBar";
 import type { ColumnsType } from "antd/es/table";
@@ -37,11 +38,15 @@ export const ListTag = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [error, setError] = useState("");
   const { setLoadingTrue, setLoadingFalse } = useLoading();
+  const [showAlert, setShowAlert] = useState(false);
 
   const handleDeleteTag = async (id: string) => {
     await tagAPI.deleteTag(id);
     getProfile();
-    <Alert message="Success Tips" type="success" showIcon />;
+    setShowAlert(true);
+    setTimeout(() => {
+      setShowAlert(false);
+    }, 800);
   };
 
   const handleEditTags = (id: string) => {
@@ -71,6 +76,7 @@ export const ListTag = () => {
   const handleCancel = () => {
     setError("");
     setOpenModal(false);
+    setName("");
   };
 
   const handleSubmit = async (e: any) => {
@@ -116,100 +122,98 @@ export const ListTag = () => {
       dataIndex: "name",
       key: "name",
     },
-    // {
-    //   title: "Chức năng",
-    //   dataIndex: "action",
-    //   align: "center",
-    //   width: 350,
-    //   key: "action",
-    //   render: (text, record) => (
-    //     <StyleButton>
-    //       <Button
-    //         type="primary"
-    //         icon={<EditOutlined />}
-    //         onClick={() => handleEditTags(record?.id)}
-    //       >
-    //         Sửa
-    //       </Button>
-    //       <Button
-    //         type="primary"
-    //         danger
-    //         icon={<DeleteOutlined />}
-    //         onClick={() => handleDeleteTag(record?.id)}
-    //       >
-    //         Xóa
-    //       </Button>
-    //     </StyleButton>
-    //   ),
-    // },
+    {
+      title: "Chức năng",
+      dataIndex: "action",
+      align: "center",
+      width: 350,
+      key: "action",
+      render: (text, record) => (
+        <StyleButton>
+          <Button
+            type="primary"
+            icon={<EditOutlined />}
+            onClick={() => handleEditTags(record?.id)}
+          >
+            Sửa
+          </Button>
+          <Button
+            type="primary"
+            danger
+            icon={<DeleteOutlined />}
+            onClick={() => handleDeleteTag(record?.id)}
+          >
+            Xóa
+          </Button>
+        </StyleButton>
+      ),
+    },
   ];
 
+  const tagDetails: any = data?.filter((item: any) => item.id === isId);
+  console.log("👋  tagDetails:", tagDetails);
+ 
   return (
-    <StyleContainer>
-      <StyleContentLeft>
-        <SlideBar />
-      </StyleContentLeft>
-      <StyleContetnRight>
-        <StyleContent>
-          <StyleTitle>Danh sách tag</StyleTitle>
-          <Button
-            onClick={handleOpenModal}
-            type="primary"
-            shape="round"
-            icon={<PlusCircleOutlined />}
-          >
-            THÊM MỚI TAG
-          </Button>
-        </StyleContent>
-        <Table
-          columns={columns}
-          dataSource={paginatedData}
-          pagination={false}
-        />
-        <Pagination
-          current={currentPage}
-          total={data.length}
-          pageSize={pageSize}
-          onChange={handleChangePage}
-          style={{ paddingTop: "24px" }}
-        />
-      </StyleContetnRight>
-      <Modal
-        open={openModal}
-        centered
-        onOk={handleSubmit}
-        onCancel={handleCancel}
-      >
-        <form onSubmit={handleSubmit}>
-          <h2>Thêm mới tag loại hàng</h2>
-          <Input
-            size="large"
-            name="name"
-            placeholder="Tên tag"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+    <>
+      {showAlert && (
+        <StyleLoading>
+          <Alert
+            message="Xóa tag thành công"
+            type="success"
+            showIcon
+            closable
           />
-          <StyleError>{error}</StyleError>
-        </form>
-      </Modal>
-      <Modal
-        open={openModal}
-        centered
-        onOk={handleSubmit}
-        onCancel={handleCancel}
-      >
-        <form onSubmit={handleSubmit}>
-          <h2>{!isEdit ? "Thêm mới tag loại hàng" : "Sửa tag loại hàng"}</h2>
-          <Input
-            size="large"
-            name="name"
-            placeholder="Tên tag"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+        </StyleLoading>
+      )}
+      <StyleContainer>
+        <StyleContentLeft>
+          <SlideBar />
+        </StyleContentLeft>
+        <StyleContetnRight>
+          <StyleContent>
+            <StyleTitle>Danh sách tag</StyleTitle>
+            <Button
+              onClick={handleOpenModal}
+              type="primary"
+              shape="round"
+              icon={<PlusCircleOutlined />}
+            >
+              THÊM MỚI TAG
+            </Button>
+          </StyleContent>
+          <Table
+            columns={columns}
+            dataSource={paginatedData}
+            pagination={false}
           />
-          <StyleError>{error}</StyleError>
-        </form>
-      </Modal>
-    </StyleContainer>
+          <Pagination
+            current={currentPage}
+            total={data.length}
+            pageSize={pageSize}
+            onChange={handleChangePage}
+            style={{ paddingTop: "24px" }}
+          />
+        </StyleContetnRight>
+        <Modal
+          open={openModal}
+          centered
+          onOk={handleSubmit}
+          onCancel={handleCancel}
+        >
+          <form onSubmit={handleSubmit}>
+            <h2>{!isEdit ? "Thêm mới tag loại hàng" : "Sửa tag loại hàng"}</h2>
+            {isEdit ? <div style={{padding: '5px', fontSize: '15px', fontWeight: '600'}}>Tên tag: {tagDetails[0]?.name}</div> : null}
+            <Input
+              size="large"
+              name="name"
+              placeholder={!isEdit ?  "Tên tag" : "Tên tag muốn sửa"}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <StyleError>{error}</StyleError>
+          </form>
+        </Modal>
+      </StyleContainer>
+    </>
   );
 };
