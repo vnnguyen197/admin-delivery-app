@@ -8,6 +8,8 @@ import Dashboard from "pages/dashboard";
 import { ListTag } from "pages/tag";
 import Shipper from "pages/shipper";
 import User from "pages/user";
+import { OrderApproval } from "pages/order-approval";
+import OrderManager from "pages/order-manager";
 
 export default function Routers() {
   const { setToken } = useToken();
@@ -19,6 +21,9 @@ export default function Routers() {
         <Route path="/shipper" element={<Shipper />} />
         <Route path="/" element={<Dashboard />} />
         <Route path="/tag" element={<ListTag />} />
+        <Route path="/order-approval" element={<OrderApproval />} />
+        <Route path="/order-manager" element={<OrderManager />} />
+        
       </Route>
       <Route path="/" element={<DefaultRoute layout={LayoutType.blank} />}>
         <Route path="/login" element={<Login setToken={setToken} />} />

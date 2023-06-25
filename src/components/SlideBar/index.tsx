@@ -44,10 +44,10 @@ export const SlideBar = () => {
         <Account onClick={() => navigate("/shipper")}>
         <UsergroupDeleteOutlined /> Quản lý shipper
         </Account>
-        <Account onClick={() => navigate("/")}>
+        <Account onClick={() => navigate("/order-manager")}>
         <DropboxOutlined /> Quản lý đơn hàng
         </Account>
-        <Account onClick={() => navigate("/")}>
+        <Account onClick={() => navigate("/order-approval")}>
         <RotateRightOutlined /> Phê duyệt đơn hàng
         </Account>
           <Account onClick={() => navigate("/tag")}>
