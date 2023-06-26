@@ -153,3 +153,9 @@ export const StyleModal = styled.div`
   flex-direction: column;
   justify-content: center;
 `;
+
+export const StyleAction = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`

@@ -16,6 +16,7 @@ import {
   StyleModal,
   StyleOrder,
   StyleTitle,
+  StyleAction,
 } from "./style";
 import { Modal, Tabs } from "antd";
 import { StyleContentLeft } from "pages/tag/style";
@@ -49,7 +50,10 @@ export const OrderApproval = () => {
             </StyleContentDetails>
             <StyleContentSender>người gởi: người gởi</StyleContentSender>
           </StyleContentOrder>
-          <StyleButton>Phê duyệt đơn</StyleButton>
+          <StyleAction>
+            <StyleButton>Phê duyệt đơn</StyleButton>
+            <StyleButton style={{background: "red"}}>Từ chối đơn</StyleButton>
+          </StyleAction>
         </StyleOrder>
       ),
     },
