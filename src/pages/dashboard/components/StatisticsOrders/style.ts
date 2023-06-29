@@ -27,7 +27,6 @@ export const StyleTotalAccount = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  gap: 20px;
   font-weight: bold;
   padding: 24px 12px;
   border-radius: 10px;
@@ -40,7 +39,7 @@ export const StyleTotalAccount = styled.div`
 export const StyleList = styled.div``;
 export const StyleItem = styled.div`
   color: #33303cad;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
 `;
 

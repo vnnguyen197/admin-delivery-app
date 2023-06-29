@@ -16,6 +16,7 @@ interface DoughnutChartProps {
   filltedDone: any[];
   filltedWaiting: any[];
   filltedCancel: any[];
+  filltedNew: any[];
 }
 
 const StatisticsOrders: React.FC<DoughnutChartProps> = ({
@@ -26,7 +27,8 @@ const StatisticsOrders: React.FC<DoughnutChartProps> = ({
   filltedShipping,
   filltedDone,
   filltedWaiting,
-  filltedCancel
+  filltedCancel,
+  filltedNew
 }) => {
   const chartRef = useRef<any>();
 
@@ -79,38 +81,45 @@ const StatisticsOrders: React.FC<DoughnutChartProps> = ({
       <StyleStatistics>
         <StyleTotalAccount>
           <StyleList>
-            <StyleItem>Tổng số đơn hàng</StyleItem>
+            <StyleItem>Tổng đơn hàng</StyleItem>
             <StyleTotalItem>{countOrder}</StyleTotalItem>
           </StyleList>
-          <img src={orderTotal} alt="img total" width={75} height={75} />
+          <img src={orderTotal} alt="img total" width={50} height={50} />
         </StyleTotalAccount>
         <StyleTotalAccount>
           <StyleList>
-            <StyleItem>Tổng số đơn đang chờ</StyleItem>
+            <StyleItem>Tổng đơn chờ phê duyệt</StyleItem>
             <StyleTotalItem>{filltedWaiting?.length}</StyleTotalItem>
           </StyleList>
-          <img src={orderConfirm} alt="img total" width={75} height={75} />
+          <img src={orderConfirm} alt="img total" width={50} height={50} />
         </StyleTotalAccount>
         <StyleTotalAccount>
           <StyleList>
-            <StyleItem>Tổng số đơn đang giao</StyleItem>
+            <StyleItem>Tổng đơn đã phê duyệt</StyleItem>
+            <StyleTotalItem>{filltedNew?.length}</StyleTotalItem>
+          </StyleList>
+          <img src={orderConfirm} alt="img total" width={50} height={50} />
+        </StyleTotalAccount>
+        <StyleTotalAccount>
+          <StyleList>
+            <StyleItem>Tổng đơn đang giao</StyleItem>
             <StyleTotalItem>{filltedShipping?.length}</StyleTotalItem>
           </StyleList>
-          <img src={orderTracking} alt="img total" width={75} height={75} />
+          <img src={orderTracking} alt="img total" width={50} height={50} />
         </StyleTotalAccount>
         <StyleTotalAccount>
           <StyleList>
-            <StyleItem>Tổng số đơn đã giao</StyleItem>
+            <StyleItem>Tổng đơn đã giao</StyleItem>
             <StyleTotalItem>{filltedDone?.length}</StyleTotalItem>
           </StyleList>
-          <img src={cargoOrder} alt="img total" width={75} height={75} />
+          <img src={cargoOrder} alt="img total" width={50} height={50} />
         </StyleTotalAccount>
         <StyleTotalAccount>
           <StyleList>
-            <StyleItem>Tổng số đơn đã hủy</StyleItem>
+            <StyleItem>Tổng đơn đã hủy</StyleItem>
             <StyleTotalItem>{filltedCancel?.length}</StyleTotalItem>
           </StyleList>
-          <img src={cancelOrder} alt="img total" width={75} height={75} />
+          <img src={cancelOrder} alt="img total" width={50} height={50} />
         </StyleTotalAccount>
       </StyleStatistics>
       <StyleCanvas>

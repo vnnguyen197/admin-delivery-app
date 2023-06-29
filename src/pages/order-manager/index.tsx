@@ -21,18 +21,16 @@ import {
   StyleModal,
   StyleContentCenter,
 } from "./style";
-import orderAPI from "services/orderAPI";
-import empty from "assets/images/empty_result.svg";
 import { StyleContentLeft } from "pages/tag/style";
 import { SlideBar } from "components/SlideBar";
 import { StyleContetnRight } from "pages/dashboard/style";
+import orderAPI from "services/orderAPI";
+import empty from "assets/images/empty_result.svg";
 
 const OrderManager: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
+  const [data, setData] = useState([]);
+  const [idOrder, setIdOrder] = useState("");
 
   const handleOk = () => {
     setIsModalOpen(false);
@@ -42,83 +40,131 @@ const OrderManager: React.FC = () => {
     setIsModalOpen(false);
   };
 
+  const getOrder = async () => {
+    const data = await orderAPI.getOrder();
+    setData(data?.data?.rows);
+  };
+
+  const showModal = (id: any) => {
+    setIsModalOpen(true);
+    setIdOrder(id);
+  };
+
+  useEffect(() => {
+    getOrder();
+  }, []);
+
+  const filterNew = data?.filter((item: any) => item.status === "NEW");
+  const filterShipping = data?.filter(
+    (item: any) => item.status === "SHIPPING"
+  );
+  const filterDone = data?.filter((item: any) => item.status === "DONE");
+  const filterCancel = data?.filter((item: any) => item.status === "CANCEL");
+  const filterDetailOrder: any = data?.filter(
+    (item: any) => item?.id === idOrder
+  );
+
   const items: any = [
     {
-      key: "DONE",
-      label: "Đơn đã được phê duyệt",
-      children: (
-        <StyleOrder>
-          <StyleContentOrder onClick={showModal}>
-            <StyleContentTitle>Đơn hàng của tôi</StyleContentTitle>
-            <StyleContentDetails>mô tả: đẽ vỡ lắm</StyleContentDetails>
-            <StyleContentSender>người gởi: Phong Lee</StyleContentSender>
-          </StyleContentOrder>
-        </StyleOrder>
-      ),
-      // ) : (
-      //   <StyleEmptyOrder>
-      //     <img src={empty} alt="empty order" width={400} height={400} />
-      //     <StyleTitleEmpty>Không có đơn hàng hiển thị</StyleTitleEmpty>
-      //   </StyleEmptyOrder>
-      // ),
+      key: "NEW",
+      label: `Đơn đã phê duyệt (${filterNew.length})`,
+      children:
+        filterNew.length !== 0 ? (
+          filterNew?.map((item: any) => (
+            <StyleOrder>
+              <StyleContentOrder onClick={() => showModal(item?.id)}>
+                <StyleContentTitle>{item?.name}</StyleContentTitle>
+                <StyleContentDetails>
+                  mô tả: {item?.description}
+                </StyleContentDetails>
+                <StyleContentSender>
+                  người gởi: {item.senderName}
+                </StyleContentSender>
+              </StyleContentOrder>
+            </StyleOrder>
+          ))
+        ) : (
+          <StyleEmptyOrder>
+            <img src={empty} alt="empty order" width={400} height={400} />
+            <StyleTitleEmpty>Không có đơn hàng hiển thị</StyleTitleEmpty>
+          </StyleEmptyOrder>
+        ),
     },
     {
-        key: "DONE",
-        label: "Đơn đang giao",
-        children: (
-          <StyleOrder>
-            <StyleContentOrder onClick={showModal}>
-              <StyleContentTitle>Đơn hàng của tôi</StyleContentTitle>
-              <StyleContentDetails>mô tả: đẽ vỡ lắm</StyleContentDetails>
-              <StyleContentSender>người gởi: Phong Lee</StyleContentSender>
-            </StyleContentOrder>
-          </StyleOrder>
+      key: "SHIPPING",
+      label: `Đơn đang giao (${filterShipping.length})`,
+      children:
+        filterShipping.length !== 0 ? (
+          filterShipping?.map((item: any) => (
+            <StyleOrder>
+              <StyleContentOrder onClick={() => showModal(item?.id)}>
+                <StyleContentTitle>{item?.name}</StyleContentTitle>
+                <StyleContentDetails>
+                  mô tả: {item?.description}
+                </StyleContentDetails>
+                <StyleContentSender>
+                  người gởi: {item.senderName}
+                </StyleContentSender>
+              </StyleContentOrder>
+            </StyleOrder>
+          ))
+        ) : (
+          <StyleEmptyOrder>
+            <img src={empty} alt="empty order" width={400} height={400} />
+            <StyleTitleEmpty>Không có đơn hàng hiển thị</StyleTitleEmpty>
+          </StyleEmptyOrder>
         ),
-        // ) : (
-        //   <StyleEmptyOrder>
-        //     <img src={empty} alt="empty order" width={400} height={400} />
-        //     <StyleTitleEmpty>Không có đơn hàng hiển thị</StyleTitleEmpty>
-        //   </StyleEmptyOrder>
-        // ),
-      },
-      {
-        key: "DONE",
-        label: "Đơn đã giao",
-        children: (
-          <StyleOrder>
-            <StyleContentOrder onClick={showModal}>
-              <StyleContentTitle>Đơn hàng của tôi</StyleContentTitle>
-              <StyleContentDetails>mô tả: đẽ vỡ lắm</StyleContentDetails>
-              <StyleContentSender>người gởi: Phong Lee</StyleContentSender>
-            </StyleContentOrder>
-          </StyleOrder>
+    },
+    {
+      key: "DONE",
+      label: `Đơn đã giao (${filterDone.length})`,
+      children:
+        filterDone.length !== 0 ? (
+          filterDone?.map((item: any) => (
+            <StyleOrder>
+              <StyleContentOrder onClick={() => showModal(item?.id)}>
+                <StyleContentTitle>{item?.name}</StyleContentTitle>
+                <StyleContentDetails>
+                  mô tả: {item?.description}
+                </StyleContentDetails>
+                <StyleContentSender>
+                  người gởi: {item.senderName}
+                </StyleContentSender>
+              </StyleContentOrder>
+            </StyleOrder>
+          ))
+        ) : (
+          <StyleEmptyOrder>
+            <img src={empty} alt="empty order" width={400} height={400} />
+            <StyleTitleEmpty>Không có đơn hàng hiển thị</StyleTitleEmpty>
+          </StyleEmptyOrder>
         ),
-        // ) : (
-        //   <StyleEmptyOrder>
-        //     <img src={empty} alt="empty order" width={400} height={400} />
-        //     <StyleTitleEmpty>Không có đơn hàng hiển thị</StyleTitleEmpty>
-        //   </StyleEmptyOrder>
-        // ),
-      },
-      {
-        key: "DONE",
-        label: "Đơn đã hủy",
-        children: (
-          <StyleOrder>
-            <StyleContentOrder onClick={showModal}>
-              <StyleContentTitle>Đơn hàng của tôi</StyleContentTitle>
-              <StyleContentDetails>mô tả: đẽ vỡ lắm</StyleContentDetails>
-              <StyleContentSender>người gởi: Phong Lee</StyleContentSender>
-            </StyleContentOrder>
-          </StyleOrder>
+    },
+    {
+      key: "CANCEL",
+      label: `Đơn đã hủy (${filterCancel.length})`,
+      children:
+        filterCancel.length !== 0 ? (
+          filterCancel?.map((item: any) => (
+            <StyleOrder>
+              <StyleContentOrder onClick={() => showModal(item?.id)}>
+                <StyleContentTitle>{item?.name}</StyleContentTitle>
+                <StyleContentDetails>
+                  mô tả: {item?.description}
+                </StyleContentDetails>
+                <StyleContentSender>
+                  người gởi: {item.senderName}
+                </StyleContentSender>
+              </StyleContentOrder>
+            </StyleOrder>
+          ))
+        ) : (
+          <StyleEmptyOrder>
+            <img src={empty} alt="empty order" width={400} height={400} />
+            <StyleTitleEmpty>Không có đơn hàng hiển thị</StyleTitleEmpty>
+          </StyleEmptyOrder>
         ),
-        // ) : (
-        //   <StyleEmptyOrder>
-        //     <img src={empty} alt="empty order" width={400} height={400} />
-        //     <StyleTitleEmpty>Không có đơn hàng hiển thị</StyleTitleEmpty>
-        //   </StyleEmptyOrder>
-        // ),
-      },
+    },
   ];
 
   return (
@@ -133,36 +179,6 @@ const OrderManager: React.FC = () => {
             Theo dõi giao hàng liên quan đến việc vận chuyển của đơn hàng
           </StyleDes>
         </StyleInfo>
-        {/* {isCheckError ? (
-        <StyleErrorPopup>
-          <Alert
-            message="Không thể nhận đơn hàng"
-            description="Bạn đang có đơn hàng ở trạng thái đang giao nên không thể nhận đơn hàng này được!"
-            type="error"
-            showIcon
-            action={
-              <Button size="small" onClick={() => setIsCheckError(false)}>
-                Đóng
-              </Button>
-            }
-          />
-        </StyleErrorPopup>
-      ) : null}
-      {isCheckVerify ? (
-        <StyleErrorPopup>
-          <Alert
-            message="Không thể nhận đơn hàng"
-            description="Tài khoản của bạn chưa được xác thực nên không thể nhận đơn hàng này, vui lòng xác thực tài khoản"
-            type="error"
-            showIcon
-            action={
-              <Button size="small" onClick={() => setIsCheckVerify(false)}>
-                Đóng
-              </Button>
-            }
-          />
-        </StyleErrorPopup>
-      ) : null} */}
         <StyleContent>
           <Tabs size="large" items={items} />
         </StyleContent>
@@ -179,50 +195,73 @@ const OrderManager: React.FC = () => {
             <StyleContentCenter>
               <StyleDetailSubTitle>
                 Tên gói hàng:
-                <StyleDetailTitle>Gói hàng hôm nay của tôi</StyleDetailTitle>
+                <StyleDetailTitle>
+                  {filterDetailOrder[0]?.name}
+                </StyleDetailTitle>
               </StyleDetailSubTitle>
               <StyleDetailSubTitle>
                 Khối lượng(gam):
-                <StyleDetailTitle>1</StyleDetailTitle>
+                <StyleDetailTitle>
+                  {filterDetailOrder[0]?.description}
+                </StyleDetailTitle>
               </StyleDetailSubTitle>
-
               <StyleDetailSubTitle>
                 Chi tiết gói hàng:
-                <StyleDetailTitle>hàng dễ vỡ và có giá trị</StyleDetailTitle>
+                <StyleDetailTitle>
+                  {filterDetailOrder[0]?.productVolume}
+                </StyleDetailTitle>
               </StyleDetailSubTitle>
               <StyleDetailSubTitle>
                 Các loại tags
-                <ul>1. vật phẩm</ul>
+                <ul>
+                  {filterDetailOrder?.tags?.map((item: any, index: number) => (
+                    <StyleDetailTitle>
+                      {index + 1}. {item?.name}
+                    </StyleDetailTitle>
+                  ))}
+                </ul>
               </StyleDetailSubTitle>
             </StyleContentCenter>
             <StyleContentCenter>
               <StyleInfoUser>Thông tin người gởi</StyleInfoUser>
               <StyleDetailSubTitle>
                 Họ và tên người gởi:
-                <StyleDetailTitle>Người gởi</StyleDetailTitle>
+                <StyleDetailTitle>
+                  {filterDetailOrder[0]?.senderName}
+                </StyleDetailTitle>
               </StyleDetailSubTitle>
               <StyleDetailSubTitle>
                 SĐT người gởi:
-                <StyleDetailTitle>0345721486</StyleDetailTitle>
+                <StyleDetailTitle>
+                  {filterDetailOrder[0]?.senderPhone}
+                </StyleDetailTitle>
               </StyleDetailSubTitle>
               <StyleDetailSubTitle>
                 Địa chỉ người gởi:
-                <StyleDetailTitle>hải châu</StyleDetailTitle>
+                <StyleDetailTitle>
+                  {filterDetailOrder[0]?.senderStreet}
+                </StyleDetailTitle>
               </StyleDetailSubTitle>
             </StyleContentCenter>
             <StyleContentCenter>
               <StyleInfoUser>Thông tin người nhận</StyleInfoUser>
               <StyleDetailSubTitle>
                 Họ và tên người nhận:
-                <StyleDetailTitle>Người nhận</StyleDetailTitle>
+                <StyleDetailTitle>
+                  {filterDetailOrder[0]?.receiverName}
+                </StyleDetailTitle>
               </StyleDetailSubTitle>
               <StyleDetailSubTitle>
                 SĐT người nhận:
-                <StyleDetailTitle>03465599185</StyleDetailTitle>
+                <StyleDetailTitle>
+                  {filterDetailOrder[0]?.receiverPhone}
+                </StyleDetailTitle>
               </StyleDetailSubTitle>
               <StyleDetailSubTitle>
                 Địa chỉ người nhận:
-                <StyleDetailTitle>Liên chiểu</StyleDetailTitle>
+                <StyleDetailTitle>
+                  {filterDetailOrder[0]?.receiverStreet}
+                </StyleDetailTitle>
               </StyleDetailSubTitle>
             </StyleContentCenter>
           </StyleModal>

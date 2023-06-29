@@ -9,7 +9,6 @@ import orderAPI from "services/orderAPI";
 
 const Dashboard: React.FC = () => {
   const [keyItem, setKeyItem] = useState("1");
-  console.log("👋  keyItem:", keyItem);
   const onChange = (key: any) => {
     setKeyItem(key);
   };
@@ -55,23 +54,31 @@ const Dashboard: React.FC = () => {
     (item: any) => item?.status === "CANCEL"
   );
 
+  const filltedNew = dataOrder?.filter(
+    (item: any) => item?.status === "NEW"
+  );
+
+
   const emptyDataOrder: number[] = [
     filltedWaiting.length,
     filltedShipping.length,
     filltedDone.length,
     filltedCancel.length,
+    filltedNew.length
   ];
   const emptyLabelsOrder: string[] = [
-    "Đơn đang chờ xác nhận",
+    "Đơn đang chờ phê duyệt",
     "Đơn đang giao",
     "Đơn đã giao",
     "Đơn đã hủy",
+    "Đơn đã phê duyệt",
   ];
   const emptyColorsOrder: string[] = [
     "#fffba5",
     "#b7ffba",
     "#18a81e",
     "#ff0000",
+    "#1677ff",
   ];
 
   useEffect(() => {
@@ -107,6 +114,7 @@ const Dashboard: React.FC = () => {
           filltedShipping={filltedShipping}
           filltedDone={filltedDone}
           filltedCancel={filltedCancel}
+          filltedNew={filltedNew}
         />
       ),
     },
