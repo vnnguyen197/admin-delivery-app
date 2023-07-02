@@ -151,7 +151,6 @@ export const ListTag = () => {
   ];
 
   const tagDetails: any = data?.filter((item: any) => item.id === isId);
-  console.log("👋  tagDetails:", tagDetails);
  
   return (
     <>
