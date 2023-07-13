@@ -93,7 +93,7 @@ const Shipper: any = (props: any) => {
       title: "STT",
       dataIndex: "index",
       key: "index",
-      width: 200,
+      width: 50,
       render: (text, record, index) => index + 1 + (currentPage - 1) * pageSize,
     },{
       title: "",

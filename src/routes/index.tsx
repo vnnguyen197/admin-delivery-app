@@ -7,9 +7,9 @@ import { LayoutType } from "layouts";
 import Dashboard from "pages/dashboard";
 import { ListTag } from "pages/tag";
 import Shipper from "pages/shipper";
-import User from "pages/user";
 import { OrderApproval } from "pages/order-approval";
 import OrderManager from "pages/order-manager";
+import User from "pages/user";
 
 export default function Routers() {
   const { setToken } = useToken();
